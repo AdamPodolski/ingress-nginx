@@ -433,6 +433,10 @@ Include /etc/nginx/owasp-modsecurity-crs/rules/RESPONSE-980-CORRELATION.conf
 Include /etc/nginx/owasp-modsecurity-crs/rules/RESPONSE-999-EXCLUSION-RULES-AFTER-CRS.conf
 " > /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
 
+# download the SPNEGO auth module
+cd "$BUILD_PATH"
+git clone https://github.com/stnoonan/spnego-http-auth-nginx-module.git
+
 # build nginx
 cd "$BUILD_PATH/nginx-$NGINX_VERSION"
 
@@ -503,7 +507,8 @@ WITH_MODULES="--add-module=$BUILD_PATH/ngx_devel_kit-$NDK_VERSION \
   --add-dynamic-module=$BUILD_PATH/ModSecurity-nginx-$MODSECURITY_VERSION \
   --add-dynamic-module=$BUILD_PATH/ngx_http_geoip2_module-${GEOIP2_VERSION} \
   --add-module=$BUILD_PATH/nginx_ajp_module-${NGINX_AJP_VERSION} \
-  --add-module=$BUILD_PATH/ngx_brotli"
+  --add-module=$BUILD_PATH/ngx_brotli \
+  --add-module=$BUILD_PATH/spnego-http-auth-nginx-module"
 
 ./configure \
   --prefix=/usr/local/nginx \

@@ -17,7 +17,7 @@ FROM alpine:3.11 as builder
 
 COPY . /
 
-RUN apk add -U bash \
+RUN apk add -U bash krb5 krb5-dev \
   && /build.sh
 
 # Use a multi-stage build
@@ -36,6 +36,7 @@ RUN apk update \
   && apk upgrade \
   && apk add -U --no-cache \
     bash \
+    krb5 \
     openssl \
     pcre \
     zlib \
